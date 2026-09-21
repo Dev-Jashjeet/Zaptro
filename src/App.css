@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+    * {
+        user-select: none;
+    }
+}
+
+@layer components {
+    .active {
+        transition: all 0.1s ease-in-out;
+        border-bottom-width: 3px;
+        border-bottom-color: rgba(255, 0, 0, 0.82);
+    }
+}
