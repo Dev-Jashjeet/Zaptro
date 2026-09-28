@@ -10,6 +10,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import type getLocationType from './types/locationType';
 import type { setResponseType } from './types/locationType';
+import Footer from './components/Footer';
 
 function App() {
   const [location, setLocation] = useState<setResponseType|null>(null);
@@ -44,6 +45,7 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart />} />
       </Routes>
+      <Footer />
     </>
   )
 }
