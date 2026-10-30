@@ -11,6 +11,7 @@ import axios from 'axios';
 import type getLocationType from './types/locationType';
 import type { setResponseType } from './types/locationType';
 import Footer from './components/Footer';
+import SingleProduct from './pages/singleProduct';
 
 function App() {
   const [location, setLocation] = useState<setResponseType|null>(null);
@@ -41,6 +42,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/products' element={<Products />} />
+        <Route path='/products/:id' element={<SingleProduct />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart />} />
