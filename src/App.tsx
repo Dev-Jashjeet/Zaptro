@@ -11,7 +11,7 @@ import axios from 'axios';
 import type getLocationType from './types/locationType';
 import type { setResponseType } from './types/locationType';
 import Footer from './components/Footer';
-import SingleProduct from './pages/singleProduct';
+import SingleProduct from './pages/SingleProduct';
 
 function App() {
   const [location, setLocation] = useState<setResponseType|null>(null);
