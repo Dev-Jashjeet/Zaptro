@@ -5,13 +5,19 @@ import { IoCartOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom"
 import type { setResponseType } from "../types/locationType";
 import { CgClose } from "react-icons/cg";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 const NavBar = ({location, getLocation, locationButtonLoader, openDropdown, setOpenDropdown}: {location: setResponseType, getLocation: any, locationButtonLoader: boolean, openDropdown: boolean, setOpenDropdown: Function}) => {
 
+    const cartSelector = useSelector((state: RootState) => state.cart.items);
+
+    // Function to open location bar
     const toggleDropDown = (): void => {
         openDropdown? setOpenDropdown(false) : setOpenDropdown(true);
-        return
+        return;
     }
+    // ---
     
   return (
     <div className="bg-white py-3 shadow-2xl">
@@ -19,7 +25,7 @@ const NavBar = ({location, getLocation, locationButtonLoader, openDropdown, setO
             {/* Logo Section */}
             <div className="flex gap-7 items-center">
                 <Link to="/"><h1 className="font-bold text-3xl"><span className="text-red-500 font-serif">Z</span>aptro</h1></Link>
-                <div className="flex gap-1 cursor-pointer text-gray-700 items-center">
+                <div onClick={toggleDropDown} className="flex gap-1 cursor-pointer text-gray-700 items-center">
                     <MapPin className="text-red-500" />
                     <span className="font-semibold">{location? 
                         <div className="-space-y-1">
@@ -28,7 +34,7 @@ const NavBar = ({location, getLocation, locationButtonLoader, openDropdown, setO
                         </div>
                         :"Add Address"}
                     </span>
-                    <FaCaretDown onClick={toggleDropDown} />
+                    <FaCaretDown />
                 </div>
                 {
                     openDropdown ? 
@@ -38,7 +44,7 @@ const NavBar = ({location, getLocation, locationButtonLoader, openDropdown, setO
                             locationButtonLoader ?
                             <button onClick={getLocation} className="flex justify-center bg-red-400 w-full p-2 text-white font-bold rounded cursor-pointer"><LoaderCircle className="animate-spin" /></button>
                             :
-                            <button onClick={getLocation} className="flex justify-evenly bg-red-500 w-full p-2 text-white font-bold rounded cursor-pointer"><MapPinHouse /> my location</button>
+                            <button onClick={getLocation} className="flex justify-center gap-2 bg-red-500 hover:bg-red-600 transition w-full p-2 text-white font-bold rounded cursor-pointer"><MapPinHouse /> my location</button>
                         }
                     </div> 
                     : null
@@ -54,7 +60,7 @@ const NavBar = ({location, getLocation, locationButtonLoader, openDropdown, setO
                 </ul>
                 <Link to="/cart" className="relative">
                     <IoCartOutline className="h-7 w-7" />
-                    <span className="bg-red-500 px-2 rounded-full absolute -top-3 -right-3 text-white">2</span>
+                    <span className="bg-red-500 px-2 rounded-full absolute -top-3 -right-3 text-white">{cartSelector.length>0? cartSelector.length : 0}</span>
                 </Link>
                 <div>
                     <Show when="signed-out">
