@@ -14,3 +14,7 @@ export interface dataArray {
     },
     title: string
 }
+
+export interface cartItemsArray {
+    items: dataArray[]
+}
