@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../store/store"
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LucideNotebook, ShoppingBag, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { dataArray } from "../types/apiResponseType";
+import { removeProduct } from "../store/addToCartSlice";
 
 const Cart = () => {
 
+  const dispatch = useDispatch();
   const cartSelector = useSelector((state: RootState) => state.cart.items);
   const [itemsTotal, setItemsTotal] = useState<number>(0);
 
@@ -46,7 +48,7 @@ const Cart = () => {
                       <span>1</span>
                       <button className="cursor-pointer">+</button>
                     </div>
-                    <span className="hover:bg-white/60 transition-all rounded-full p-3 hover:shadow-2xl">
+                    <span onClick={() => dispatch(removeProduct(item))} className="hover:bg-white/60 transition-all rounded-full p-3 hover:shadow-2xl">
                       <FaRegTrashAlt className="text-red-500 text-2xl cursor-pointer" />
                     </span>
                   </div>
