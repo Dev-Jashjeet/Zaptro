@@ -5,10 +5,12 @@ import { LucideNotebook, ShoppingBag, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { dataArray } from "../types/apiResponseType";
 import { removeProduct } from "../store/addToCartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartSelector = useSelector((state: RootState) => state.cart.items);
   const [itemsTotal, setItemsTotal] = useState<number>(0);
 
@@ -39,7 +41,7 @@ const Cart = () => {
                     <div className="flex items-center gap-4">
                       <img src={item.image} alt={item.title} className="w-20 h-20 rounded-md" />
                       <div>
-                        <h1 className="w-75 line-clamp-2">{item.title}</h1>
+                        <h1 onClick={() => navigate(`/products/${item.id}`)} className="w-75 cursor-pointer line-clamp-2">{item.title}</h1>
                         <p className="text-red-500 font-semibold text-lg">${item.price}</p>
                       </div>
                     </div>
