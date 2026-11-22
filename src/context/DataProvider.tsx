@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useState, type ReactNode } from "react";
 import type getApiResponse from "../types/apiResponseType";
 import type { dataArray } from "../types/apiResponseType";
 
