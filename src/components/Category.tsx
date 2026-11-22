@@ -1,10 +1,11 @@
 import { useContext, useEffect } from 'react'
 import { DataContext } from '../context/DataProvider'
 import type { dataArray } from '../types/apiResponseType';
+import { useNavigate } from 'react-router-dom';
 
 const Category = () => {
   const {data, fetchAllProducts}: {data: dataArray[], fetchAllProducts: Function} = useContext(DataContext);
-  
+  const navigate = useNavigate();
   useEffect((): void => {
     fetchAllProducts();
   }, []);
@@ -26,7 +27,7 @@ const Category = () => {
             {
               categoriesOnlyData && categoriesOnlyData.map((item: string, index: number) => {
                 return <div key={index}>
-                  <button className='uppercase bg-linear-to-r from-red-500 to-purple-500 text-white px-3 py-1 cursor-pointer rounded-md'>{item}</button>
+                  <button onClick={() => navigate(`/category/${item}`)} className='uppercase bg-linear-to-r from-red-500 to-purple-600 text-white px-3 py-1 rounded-md'>{item}</button>
                 </div>
               })
             }
