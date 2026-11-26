@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <DataProvider>
-        <ClerkProvider>
+        <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
           <BrowserRouter>
             <App />
             <ScrollToTop smooth color='white' style={{
