@@ -12,6 +12,7 @@ import type getLocationType from './types/locationType';
 import type { setResponseType } from './types/locationType';
 import Footer from './components/Footer';
 import SingleProduct from './pages/SingleProduct';
+import CategoryProducts from './pages/CategoryProducts';
 
 function App() {
   const [location, setLocation] = useState<setResponseType|null>(null);
@@ -43,6 +44,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/products' element={<Products />} />
         <Route path='/products/:id' element={<SingleProduct />} />
+        <Route path='/category/:category' element={<CategoryProducts />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/cart' element={<Cart location={location} getLocation={getLocation} locationButtonLoader={locationButtonLoader} />} />
