@@ -8,7 +8,9 @@ import ProductListView from '../components/ProductListView';
 export default function CategoryProducts() {
     const { category } = useParams();
     const navigate = useNavigate();
-    const { data } = useContext(DataContext);
+    const context = useContext(DataContext);
+    if (!context) throw new Error("DataContext must be used within its Provider");
+    const { data } = context;
     const [products, setProducts] = useState<[]|dataArray[]>([]);
 
     // Function to store filtered data based on category
