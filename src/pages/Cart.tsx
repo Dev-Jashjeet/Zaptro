@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../store/store"
 import { FaRegTrashAlt } from "react-icons/fa";
-import { LoaderCircle, LucideNotebook, ShoppingBag, Truck } from "lucide-react";
+import { LoaderCircle, Notebook, ShoppingBag, Truck } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import type { dataArray } from "../types/apiResponseType";
 import { removeProduct } from "../store/addToCartSlice";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@clerk/react";
 import type { setResponseType } from "../types/locationType";
+import { toast } from "react-toastify";
 
 const Cart = ({location, getLocation, locationButtonLoader}: {location:setResponseType|null, getLocation: Function, locationButtonLoader: boolean}) => {
 
@@ -48,9 +49,9 @@ const Cart = ({location, getLocation, locationButtonLoader}: {location:setRespon
 
   // Function to update form field on getting location
   useEffect((): void => {
-    if(!location) 
+    if(!location || !user) 
       return;
-    setFullName(user.fullName);
+    setFullName(user.fullName || "user");
     setAddress(location.city+" "+location.state);
     setState(location.state);
     setPostCode(location.postcode);
@@ -62,14 +63,14 @@ const Cart = ({location, getLocation, locationButtonLoader}: {location:setRespon
   const handleForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(!user) {
-      console.log("please login");
+      toast.warn("Please login to continue");
       return;
     }
     if(!location) {
-      console.log("please add location");
+      toast.warn("Please add location");
       return;
     }
-    console.log("submitted");
+    toast.success("Details Updated");
     return;
   }
   // ---
@@ -93,7 +94,7 @@ const Cart = ({location, getLocation, locationButtonLoader}: {location:setRespon
                       </div>
                     </div>
                     <div className="bg-red-500 text-white flex gap-4 p-2 rounded-md font-bold text-xl">
-                      <button className="cursor-pointer ">-</button>
+                      <button className="cursor-pointer">-</button>
                       <span>1</span>
                       <button className="cursor-pointer">+</button>
                     </div>
@@ -151,7 +152,7 @@ const Cart = ({location, getLocation, locationButtonLoader}: {location:setRespon
               <div className="bg-white border border-gray-100 shadow-xl rounded-md p-7 mt-4 space-y-2 h-max">
                 <h1 className="text-gray-800 font-bold text-xl">Bill details</h1>
                 <div className="flex justify-between items-center py-2">
-                  <h1 className="flex gap-1 items-center text-gray-700"><span><LucideNotebook /></span>Items total</h1>
+                  <h1 className="flex gap-1 items-center text-gray-700"><span><Notebook /></span>Items total</h1>
                   <p>${itemsTotal}</p>
                 </div>
                 <div className="flex justify-between items-center">
