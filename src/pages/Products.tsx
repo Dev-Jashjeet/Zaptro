@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react"
 import { DataContext } from "../context/DataProvider"
 import FilterSection from "../components/FilterSection";
-import ProductCart from "../components/ProductCart";
 import type { dataArray } from "../types/apiResponseType";
 import ProductSkeleton from "../skeleton/ProductSkeleton";
+import ProductCards from "../components/ProductCards";
 
 const Products = () => {
-  let {data, fetchAllProducts}: {data: dataArray[], fetchAllProducts: Function} = useContext(DataContext);
+  const context = useContext(DataContext);
+  if (!context) 
+    throw new Error("DataContext must be used within its Provider");
+  const { data, fetchAllProducts }: {data: dataArray[], fetchAllProducts: Function} = context; 
   const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [filteredData, setFilteredData] = useState<dataArray[] | null>(null);
@@ -32,12 +35,14 @@ const Products = () => {
     }));
 
   }, [category]);
+  // ---
 
   // Function to get searched item when search in select box
   useEffect((): void => {
     setFilteredData(data?.filter((item: dataArray) =>
         item.title.toLowerCase().includes(search.toLowerCase())))
   }, [search]);
+  // ---
   
   return (
     <div>
@@ -49,7 +54,7 @@ const Products = () => {
                 <div className="grid grid-cols-4 gap-7 mt-10">
                   {
                     filteredData && filteredData.length>0 ? filteredData.map((product: dataArray, index: number) => {
-                      return <ProductCart key={index} product={product} />
+                      return <ProductCards key={index} product={product} />
                     }) :
                     <div className="flex justify-center items-center md:h-150 md:w-225 mt-10">
                      <iframe className="w-full h-full" src="https://lottie.host/embed/6e9cc933-cf99-45a8-875d-71a391d08e6b/cwGq29UwGH.json"></iframe>
