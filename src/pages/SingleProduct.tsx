@@ -4,18 +4,35 @@ import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../context/DataProvider';
 import Breadcrums from '../components/Breadcrums';
 import { IoCartOutline } from 'react-icons/io5';
+import SingleProductSkeleton from '../skeleton/SingleProductSkeleton';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from '../store/addToCartSlice';
+import type { RootState } from '../store/store';
 
 export default function SingleProduct() {
     const { id } = useParams();
-    const { data, fetchAllProducts }: {data: dataArray[], fetchAllProducts: Function} = useContext(DataContext);
+    const context = useContext(DataContext);
+    if (!context) 
+        throw new Error("DataContext must be used within its Provider");
+    const { data, fetchAllProducts }: {data: dataArray[], fetchAllProducts: Function} = context; 
     const [singleProductData, setSingleProductData] = useState<dataArray|null>(null);
     const [quantity, setQuantity] = useState<number>(1);
+    const cartSelector = useSelector((state: RootState) => state.cart.items);
+    const dispatch = useDispatch();
 
-    // Function to find product data in the datas array
+    // Function to find product data in the data's array
     useEffect((): void => {
         fetchAllProducts();
         setSingleProductData(data.find(data => data.id === Number(id)) ?? null);
     }, [data, id]);
+    // ---
+
+    // Function to add Product to cart
+    const addProductToCart = (): void => {
+        if(singleProductData)
+            dispatch(addProduct(singleProductData));
+        return;
+    }
     // ---
 
     return(
@@ -39,13 +56,17 @@ export default function SingleProduct() {
                         <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(Number(e.target.value))} type="number" min={1} max={500} value={quantity} className='w-20 border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-red-500' />
                     </div>
                     <div className='flex gap-4 mt-4'>
-                        <button className='cursor-pointer px-6 flex gap-2 py-2 text-lg bg-red-500 text-white rounded-md'><IoCartOutline className='w-6 h-6' /> Add to cart</button>
+                        {
+                            cartSelector.some((item: dataArray) => item.id === singleProductData.id)? 
+                             <button className='px-6 flex gap-2 py-2 text-lg bg-red-300 text-white rounded-md'>Added to cart</button>
+                             :
+                             <button onClick={addProductToCart} className='cursor-pointer px-6 flex gap-2 py-2 text-lg bg-red-500 text-white rounded-md'><IoCartOutline className='w-6 h-6' /> Add to cart</button>
+                        }
                     </div>
                 </div>
             </div>
         </div>
-        : <div className='w-full h-full flex justify-center items-center'>
-            <iframe className='h-60' src="https://lottie.host/embed/af4c4133-b9cd-4bc0-a753-c69c3553f459/m7uERbtOTI.lottie"></iframe>
-        </div>
+        : 
+        <SingleProductSkeleton />
     )
 }
