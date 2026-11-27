@@ -1,5 +1,10 @@
 
 const Contact = () => {
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  }
+
   return (
     <div className="min-h-screen bg-linear-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] flex items-center justify-center px-4 py-10">
       <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-10 w-full max-w-5xl">
@@ -33,7 +38,7 @@ const Contact = () => {
               <label className="block text-white mb-1">Your Message</label>
               <textarea rows={4} placeholder="Type your message..." className="w-full px-4 py-2 bg-white/20 border border-white/30 text-white rounded-xl placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            <button type="submit" className="w-full bg-linear-to-r from-red-500 to-purple-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-300">
+            <button onClick={handleSubmit} className="w-full cursor-pointer bg-linear-to-r from-red-500 to-purple-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-300">
               Send Message 🚀
             </button>
           </form>
